@@ -17,8 +17,11 @@ class MaincontrController < ApplicationController
         (!before_mod && after_mod) || (before_mod && !after_mod)
       end
     else
+      @code = -2
+      @err_msg = 'Количество элементов массива не совпадает с тем, что была введено!!!'
+      @ind_of_err_sym = nil
       redirect_to(root_path,
-                  notice: [-2, 'Количество элементов массива не совпадает с тем, что была введено!!!', nil, nil])
+                  notice: [@code, @err_msg, @ind_of_err_sym, nil])
     end
 
     @sequences = enum.to_a.select { |array| array.any? { |element| is_square?(element) } }
@@ -33,6 +36,11 @@ class MaincontrController < ApplicationController
   end
 
   def set_and_check_input_data
+    # инициализация некоторых переменных (считаем, что программа работает без ошибки)
+    @code = 0
+    @err_msg = nil
+    @ind_of_err_sym = nil
+
     @input_sequence = params[:query]
     @input_number_of_sequence_els = params[:number]
     check_str(@input_sequence)
@@ -56,10 +64,6 @@ class MaincontrController < ApplicationController
       'Без знаков пунктуации!'
     ]
 
-    @code = nil
-    @err_msg = nil
-    @ind_of_err_sym = nil
-
     # Пояснение.
     # Код ошибки code:
     #   -2 --- количество элементов массива не совпадает с тем, что была введено (!!!проверка осуществляется в методе show)
@@ -79,6 +83,8 @@ class MaincontrController < ApplicationController
       @ind_of_err_sym = nil
     end
 
-    redirect_to(root_path, notice: [@code, @err_msg, @ind_of_err_sym, str_to_check]) unless code.zero?
+    return if code.zero?
+
+    redirect_to(root_path, notice: [@code, @err_msg, @ind_of_err_sym, str_to_check])
   end
 end
