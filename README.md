@@ -6,6 +6,12 @@
     rails s
 ```
 
+Тесты:
+
+```bash
+    bundle exec rspec .
+```
+
 Rubocop:
 ```bash
     rubocop .

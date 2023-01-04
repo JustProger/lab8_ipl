@@ -64,7 +64,7 @@ RSpec.describe 'Maincontrs', type: :request do
       # ошибка с кодом -2
       before { get "/maincontr/show?#{URI.encode_www_form({ number: number + 1, query: array })}" }
 
-      it 'returns http success' do
+      it 'returns http 302 error' do
         expect(response).to have_http_status(302)
       end
 
@@ -81,7 +81,7 @@ RSpec.describe 'Maincontrs', type: :request do
       # ошибка с кодом 1 (см. контроллер Maincontr)
       before { get "/maincontr/show?#{URI.encode_www_form({ number:, query: "#{array}i" })}" }
 
-      it 'returns http success' do
+      it 'returns http 302 error' do
         expect(response).to have_http_status(302)
       end
 
@@ -98,7 +98,7 @@ RSpec.describe 'Maincontrs', type: :request do
       # ошибка с кодом 2 (см. контроллер Maincontr)
       before { get "/maincontr/show?#{URI.encode_www_form({ number:, query: "#{array}$" })}" }
 
-      it 'returns http success' do
+      it 'returns http 302 error' do
         expect(response).to have_http_status(302)
       end
 
